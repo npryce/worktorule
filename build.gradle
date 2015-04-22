@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'junit:junit:4.12'
+    compile 'com.google.code.findbugs:jsr305:3.0.0'
+    compile 'com.google.guava:guava:18.0'
+    testCompile 'org.hamcrest:hamcrest-java:2.0.0.0'
+    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
+}
