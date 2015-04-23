@@ -58,20 +58,19 @@ public class IgnoreInProgressTest {
     }
 
     @Test
-    public void reportsFailureOfFailingTestIfAnnotatedWithClosedIssue() throws Throwable {
+    public void failsTestIfAnnotatedAsInProgressButIssuesNotOpen() throws Throwable {
         Statement testWithRuleApplied = rule.apply(
-                new FailingTest(new ExampleFailure()),
+                new PassingTest(),
                 descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("closed-issue")));
 
         try {
             testWithRuleApplied.evaluate();
         }
-        catch (AssumptionViolatedException e) {
-            Assert.fail("annotated test was skipped even though issue was closed");
+        catch (AssertionError expected) {
+            return;
         }
-        catch (ExampleFailure e) {
-            // expected
-        }
+
+        Assert.fail("test should have failed");
     }
 
     @Test
