@@ -1,4 +1,4 @@
-package org.natpryce.worktorule;
+package com.natpryce.worktorule;
 
 import com.natpryce.worktorule.IgnoreInProgress;
 import com.natpryce.worktorule.InProgress;
