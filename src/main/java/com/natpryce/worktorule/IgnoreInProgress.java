@@ -3,7 +3,6 @@ package com.natpryce.worktorule;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.sun.istack.internal.Nullable;
-import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -15,6 +14,7 @@ import java.util.Set;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.union;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @SuppressWarnings("UnusedDeclaration")
 public class IgnoreInProgress implements TestRule {
@@ -34,8 +34,7 @@ public class IgnoreInProgress implements TestRule {
             return new Statement() {
                 @Override
                 public void evaluate() throws Throwable {
-                    final Set<String> openIssueIds = filterOpen(issueIds);
-
+                    Set<String> openIssueIds = filterOpen(issueIds);
                     assertTrue("test annotated as InProgress, but no open issues found", !openIssueIds.isEmpty());
 
                     try {
@@ -46,7 +45,7 @@ public class IgnoreInProgress implements TestRule {
                         throw new AssumptionViolatedException("known issue", t);
                     }
 
-                    Assert.fail("test passed when annotated as in progress");
+                    fail("test passed when annotated as in progress");
                 }
             };
         }

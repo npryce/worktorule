@@ -91,6 +91,17 @@ public class IgnoreInProgressTest {
         Assert.fail("should have failed the test");
     }
 
+    @Test(expected = IOException.class)
+    public void failsTestWithErrorIfCommunicationWithIssueTrackerFails() throws Throwable {
+        issueTracker.failure = new IOException("pop!");
+
+        Statement testWithRuleApplied = rule.apply(
+                new PassingTest(),
+                descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("issue-id")));
+
+        testWithRuleApplied.evaluate();
+    }
+
 
     private Description descriptionOfTest(Class<?> testClass, Annotation ... annotations) {
         return Description.createTestDescription(testClass, "exampleTestName", annotations);
@@ -123,6 +134,7 @@ public class IgnoreInProgressTest {
     }
 
     private static class FakeIssueTracker implements IssueTracker {
+        public IOException failure = null;
         private final Set<String> openIssues = newHashSet();
 
         public void open(String ... issues) {
@@ -131,7 +143,12 @@ public class IgnoreInProgressTest {
 
         @Override
         public boolean isOpen(String issueId) throws IOException {
-            return openIssues.contains(issueId);
+            if (failure != null) {
+                throw failure;
+            }
+            else {
+                return openIssues.contains(issueId);
+            }
         }
     }
 
