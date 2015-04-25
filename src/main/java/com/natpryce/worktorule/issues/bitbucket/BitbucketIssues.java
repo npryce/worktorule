@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 
 public class BitbucketIssues implements IssueTracker {
     private static final URITemplate uriTemplate =
