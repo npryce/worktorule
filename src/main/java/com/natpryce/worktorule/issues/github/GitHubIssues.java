@@ -2,6 +2,7 @@ package com.natpryce.worktorule.issues.github;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.natpryce.worktorule.IssueTracker;
 import com.scurrilous.uritemplate.URITemplate;
@@ -16,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Optional;
 
 public class GitHubIssues implements IssueTracker {
     private static final URITemplate uriTemplate =
@@ -47,6 +47,10 @@ public class GitHubIssues implements IssueTracker {
             throw new IOException("request to " + issueUrl + " failed with status " + responseCode);
         }
 
+        return parseJson(cx);
+    }
+
+    private JsonNode parseJson(HttpURLConnection cx) throws IOException {
         Reader r = new InputStreamReader(new BufferedInputStream(cx.getInputStream()), parseCharset(cx));
         try {
             return objectMapper.readTree(r);
@@ -61,7 +65,7 @@ public class GitHubIssues implements IssueTracker {
     }
 
     private String parseCharset(MimeType contentType) {
-        return Optional.ofNullable(contentType.getParameter("charset")).orElse("utf-8");
+        return Optional.fromNullable(contentType.getParameter("charset")).or("utf-8");
     }
 
     private MimeType parseContentType(HttpURLConnection cx) throws IOException {
