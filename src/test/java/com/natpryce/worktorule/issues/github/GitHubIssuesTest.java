@@ -8,15 +8,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class GitHubIssuesTest {
-    GitHubIssues issues = new GitHubIssues("npryce", "worktorule");
-
-    @Test
-    public void closedIssue() throws IOException {
-        assertFalse(issues.isOpen("1"));
-    }
+    GitHubIssues issues = new GitHubIssues("npryce", "worktorule-testing");
 
     @Test
     public void openIssue() throws IOException {
-        assertTrue(issues.isOpen("2"));
+        assertTrue(issues.isOpen("1"));
+    }
+
+    @Test
+    public void closedIssue() throws IOException {
+        assertFalse(issues.isOpen("2"));
     }
 }
