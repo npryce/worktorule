@@ -23,10 +23,4 @@ public @interface InProgress {
      */
     String[] value();
 
-    Function<InProgress, String[]> ids = new Function<InProgress, String[]>() {
-        @Override
-        public String[] apply(InProgress input) {
-            return input.value();
-        }
-    };
 }

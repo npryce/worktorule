@@ -1,8 +1,8 @@
 package com.natpryce.worktorule;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
-import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -48,7 +48,7 @@ public class IgnoreInProgress implements TestRule {
                     } catch (org.junit.internal.AssumptionViolatedException e) {
                         throw e;
                     } catch (Throwable t) {
-                        throw new AssumptionViolatedException("known issue", t);
+                        throw new org.junit.AssumptionViolatedException("known issue", t);
                     }
 
                     fail("test passed when annotated as in progress");
@@ -81,7 +81,14 @@ public class IgnoreInProgress implements TestRule {
 
     private Set<String> ids(@Nullable InProgress annotation) {
         return ImmutableSet.copyOf(Optional.fromNullable(annotation)
-                .transform(InProgress.ids)
+                .transform(toIds)
                 .or(new String[0]));
     }
+
+    private static final Function<InProgress, String[]> toIds = new Function<InProgress, String[]>() {
+        @Override
+        public String[] apply(InProgress input) {
+            return input.value();
+        }
+    };
 }
