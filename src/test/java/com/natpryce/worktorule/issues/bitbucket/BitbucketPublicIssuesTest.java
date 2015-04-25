@@ -1,4 +1,4 @@
-package com.natpryce.worktorule.issues.github;
+package com.natpryce.worktorule.issues.bitbucket;
 
 import org.junit.Test;
 
@@ -7,8 +7,8 @@ import java.io.IOException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class GitHubIssuesTest {
-    GitHubIssues issues = new GitHubIssues("npryce", "worktorule-testing");
+public class BitbucketPublicIssuesTest {
+    BitbucketIssues issues = new BitbucketIssues("npryce", "worktorule-testing-public");
 
     @Test
     public void openIssue() throws IOException {
