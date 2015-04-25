@@ -2,6 +2,7 @@ package com.natpryce.worktorule.issues.bitbucket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.natpryce.worktorule.IssueTracker;
 import com.scurrilous.uritemplate.URITemplate;
 
@@ -15,6 +16,11 @@ public class BitbucketIssues implements IssueTracker {
     private static final URITemplate uriTemplate =
             new URITemplate("https://bitbucket.org/api/1.0/repositories/{owner}/{repo}/issues/{issueId}");
 
+    private static final ImmutableSet<String> openStatuses = ImmutableSet.of(
+            "new",
+            "on hold"
+    );
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String owner;
     private final String repo;
@@ -26,7 +32,7 @@ public class BitbucketIssues implements IssueTracker {
 
     @Override
     public boolean isOpen(String issueId) throws IOException {
-        return Objects.equals(objectMapper.readTree(urlFor(issueId)).get("status").asText("unknown"), "new");
+        return openStatuses.contains(objectMapper.readTree(urlFor(issueId)).get("status").asText("unknown"));
     }
 
     private URL urlFor(String issueId) {
