@@ -2,12 +2,12 @@ package com.natpryce.worktorule;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
-import com.sun.istack.internal.Nullable;
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Set;
 
@@ -79,7 +79,7 @@ public class IgnoreInProgress implements TestRule {
         return issueIds;
     }
 
-    Set<String> ids(@Nullable InProgress annotation) {
+    private Set<String> ids(@Nullable InProgress annotation) {
         return ImmutableSet.copyOf(Optional.fromNullable(annotation)
                 .transform(InProgress.ids)
                 .or(new String[0]));
