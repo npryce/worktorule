@@ -16,6 +16,12 @@ import static com.google.common.collect.Sets.union;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ * A JUnit test rule that skips failing tests if they are annotated as {@link InProgress}.
+ *
+ * The rule fails tests if they pass but are still annotated as {@link InProgress}, or
+ * are related only to closed issues.
+ */
 @SuppressWarnings("UnusedDeclaration")
 public class IgnoreInProgress implements TestRule {
     private final IssueTracker issueTracker;
