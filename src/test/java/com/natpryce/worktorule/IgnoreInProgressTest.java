@@ -1,8 +1,5 @@
 package com.natpryce.worktorule;
 
-import com.natpryce.worktorule.IgnoreInProgress;
-import com.natpryce.worktorule.InProgress;
-import com.natpryce.worktorule.IssueTracker;
 import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;
