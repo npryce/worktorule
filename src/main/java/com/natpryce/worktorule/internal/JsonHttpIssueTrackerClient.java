@@ -33,7 +33,7 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
 
     private JsonNode getJsonFor(String issueId) throws IOException {
         URL issueUrl = urlScheme.urlOfIssue(issueId);
-        HttpURLConnection cx = (HttpURLConnection)issueUrl.openConnection();
+        HttpURLConnection cx = (HttpURLConnection) issueUrl.openConnection();
         cx.setRequestProperty("Accept", acceptedContentType);
 
         int responseCode = cx.getResponseCode();
@@ -48,8 +48,7 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
         Reader r = new InputStreamReader(new BufferedInputStream(cx.getInputStream()), parseCharset(cx));
         try {
             return objectMapper.readTree(r);
-        }
-        finally {
+        } finally {
             r.close();
         }
     }
@@ -69,5 +68,16 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
         } catch (MimeTypeParseException e) {
             throw new IOException("failed to parse content type: " + contentType, e);
         }
+    }
+
+    /**
+     * Cache issue statuses for the lifetime of the process.
+     *
+     * Typically, this caches for subsequent tests in the same test run.
+     *
+     * @return this issue tracker client, with caching applied
+     */
+    public IssueTracker cached() {
+        return new IssueCache(this);
     }
 }

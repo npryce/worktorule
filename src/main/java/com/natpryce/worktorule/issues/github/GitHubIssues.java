@@ -22,5 +22,4 @@ public class GitHubIssues extends JsonHttpIssueTrackerClient {
                 "application/vnd.github.v3+json",
                 issueIsOpen);
     }
-
 }
