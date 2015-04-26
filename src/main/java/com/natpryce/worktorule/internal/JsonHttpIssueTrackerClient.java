@@ -35,6 +35,7 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
         URL issueUrl = urlScheme.urlOfIssue(issueId);
         HttpURLConnection cx = (HttpURLConnection) issueUrl.openConnection();
         cx.setRequestProperty("Accept", acceptedContentType);
+        cx.setRequestProperty("User-Agent", getClass().getPackage().getName());
 
         int responseCode = cx.getResponseCode();
         if (responseCode >= 300) {

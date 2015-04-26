@@ -6,8 +6,6 @@ import com.natpryce.worktorule.internal.IssueJsonPredicate;
 import com.natpryce.worktorule.internal.JsonHttpIssueTrackerClient;
 import com.natpryce.worktorule.internal.ProjectHostingServiceUrlScheme;
 
-import javax.annotation.Nullable;
-
 public class GitHubIssues extends JsonHttpIssueTrackerClient {
     private static final String urlTemplate =
             "https://api.github.com/repos/{owner}/{repo}/issues/{issueId}";
@@ -31,5 +29,4 @@ public class GitHubIssues extends JsonHttpIssueTrackerClient {
             throw new JsonMappingException("JSON does not conform to GitHub issue structure");
         }
     };
-
 }
