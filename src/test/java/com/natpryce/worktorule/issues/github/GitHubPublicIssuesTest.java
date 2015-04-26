@@ -1,6 +1,7 @@
 package com.natpryce.worktorule.issues.github;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
