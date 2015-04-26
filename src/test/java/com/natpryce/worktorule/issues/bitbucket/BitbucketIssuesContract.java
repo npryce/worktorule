@@ -1,5 +1,7 @@
 package com.natpryce.worktorule.issues.bitbucket;
 
+import com.natpryce.worktorule.IssueTracker;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -8,11 +10,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public abstract class BitbucketIssuesContract {
-    private final BitbucketIssues issues;
+    private IssueTracker issues;
 
-    public BitbucketIssuesContract(final BitbucketIssues issues) {
-        this.issues = issues;
+    @Before
+    public void setUp() {
+        issues = createIssueTracker();
     }
+
+    protected abstract IssueTracker createIssueTracker();
 
     @Test
     public void openIssue() throws IOException {

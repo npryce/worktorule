@@ -3,6 +3,7 @@ package com.natpryce.worktorule.issues.bitbucket;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import com.natpryce.worktorule.http.HttpConnectionSetting;
 import com.natpryce.worktorule.internal.IssueJsonPredicate;
 import com.natpryce.worktorule.internal.JsonHttpIssueTrackerClient;
 import com.natpryce.worktorule.internal.ProjectHostingServiceUrlScheme;
@@ -29,9 +30,10 @@ public class BitbucketIssues extends JsonHttpIssueTrackerClient {
         }
     };
 
-    public BitbucketIssues(String owner, String repo) {
+    public BitbucketIssues(String owner, String repo, HttpConnectionSetting ... connectionSettings) {
         super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo),
                 "application/json",
-                issueIsOpen);
+                issueIsOpen,
+                connectionSettings);
     }
 }

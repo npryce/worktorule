@@ -1,7 +1,10 @@
 package com.natpryce.worktorule.issues.bitbucket;
 
+import com.natpryce.worktorule.IssueTracker;
+
 public class BitbucketPublicIssuesTest extends BitbucketIssuesContract {
-    public BitbucketPublicIssuesTest() {
-        super(new BitbucketIssues("npryce", "worktorule-testing-public"));
+    @Override
+    protected IssueTracker createIssueTracker() {
+        return new BitbucketIssues("npryce", "worktorule-testing-public");
     }
 }

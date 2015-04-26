@@ -1,9 +1,10 @@
 language: java
-
 jdk:
-  - openjdk7
-  - oraclejdk7
-  - oraclejdk8
-
+- openjdk7
+- oraclejdk7
+- oraclejdk8
 script:
-  - ./gradlew clean jar test
+- "./gradlew clean jar test"
+env:
+  global:
+    secure: MSsRwjFvZ95XO9+F9CWvYEqR0Yvbs5rV2/v8l2cRNLuJZfsFZ/Q9G/uzi96jvU+/LWtQC3MqBe0YugDYfSjYInPYkOLv7qMBYzJJ5CSkvT2QGSU9bUzeW1NAaJQmbYuT/8yQ1V6RFYsn0q6fQykSDGWu+2XmpsJYTEOKT3fp7t8=

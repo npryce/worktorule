@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import com.natpryce.worktorule.IssueTracker;
+import com.natpryce.worktorule.http.HttpConnectionSetting;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -19,11 +20,13 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
     private final String acceptedContentType;
     private final IssueTrackerUrlScheme urlScheme;
     private final IssueJsonPredicate isOpenPredicate;
+    private final HttpConnectionSetting[] connectionSettings;
 
-    public JsonHttpIssueTrackerClient(IssueTrackerUrlScheme urlScheme, final String acceptedContentType, IssueJsonPredicate isOpenPredicate) {
+    public JsonHttpIssueTrackerClient(IssueTrackerUrlScheme urlScheme, String acceptedContentType, IssueJsonPredicate isOpenPredicate, HttpConnectionSetting ... connectionSettings) {
         this.urlScheme = urlScheme;
         this.isOpenPredicate = isOpenPredicate;
         this.acceptedContentType = acceptedContentType;
+        this.connectionSettings = connectionSettings;
     }
 
     @Override
@@ -33,9 +36,13 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
 
     private JsonNode getJsonFor(String issueId) throws IOException {
         URL issueUrl = urlScheme.urlOfIssue(issueId);
+
         HttpURLConnection cx = (HttpURLConnection) issueUrl.openConnection();
         cx.setRequestProperty("Accept", acceptedContentType);
         cx.setRequestProperty("User-Agent", getClass().getPackage().getName());
+        for (HttpConnectionSetting connectionSetting : connectionSettings) {
+            connectionSetting.applyTo(cx);
+        }
 
         int responseCode = cx.getResponseCode();
         if (responseCode >= 300) {
