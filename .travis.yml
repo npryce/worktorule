@@ -6,4 +6,4 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./gradlew clean jar test
+  - ./gradlew --stacktrace clean jar test
