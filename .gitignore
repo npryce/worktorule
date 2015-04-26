@@ -26,3 +26,14 @@ gradle-app.setting
 !gradle-wrapper.jar
 
 
+
+gradle.properties
+
+.idea/.name
+.idea/libraries
+
+.idea/compiler.xml
+.idea/workspace.xml
+.idea/modules.xml
+
+worktorule.iml
