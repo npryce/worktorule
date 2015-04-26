@@ -3,9 +3,7 @@ package com.natpryce.worktorule.internal;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableMap;
 import com.natpryce.worktorule.IssueTracker;
-import com.scurrilous.uritemplate.URITemplate;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -14,25 +12,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class JsonHttpIssueTrackerClient implements IssueTracker {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String acceptedContentType;
     private final IssueTrackerUrlScheme urlScheme;
-    private final IssueJsonPredicate p;
+    private final IssueJsonPredicate isOpenPredicate;
 
-    public JsonHttpIssueTrackerClient(IssueTrackerUrlScheme urlScheme, IssueJsonPredicate p) {
+    public JsonHttpIssueTrackerClient(IssueTrackerUrlScheme urlScheme, final String acceptedContentType, IssueJsonPredicate isOpenPredicate) {
         this.urlScheme = urlScheme;
-        this.p = p;
-        acceptedContentType = "application/vnd.github.v3+json";
+        this.isOpenPredicate = isOpenPredicate;
+        this.acceptedContentType = acceptedContentType;
     }
 
     @Override
     public boolean isOpen(String issueId) throws IOException {
-        return p.isOpen(getJsonFor(issueId));
+        return isOpenPredicate.isOpen(getJsonFor(issueId));
     }
 
     private JsonNode getJsonFor(String issueId) throws IOException {

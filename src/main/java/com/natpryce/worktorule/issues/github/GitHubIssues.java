@@ -18,7 +18,9 @@ public class GitHubIssues extends JsonHttpIssueTrackerClient {
     };
 
     public GitHubIssues(final String owner, final String repo) {
-        super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo), issueIsOpen);
+        super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo),
+                "application/vnd.github.v3+json",
+                issueIsOpen);
     }
 
 }

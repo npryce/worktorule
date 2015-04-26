@@ -23,6 +23,8 @@ public class BitbucketIssues extends JsonHttpIssueTrackerClient {
     };
 
     public BitbucketIssues(String owner, String repo) {
-        super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo), issueIsOpen);
+        super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo),
+                "application/json",
+                issueIsOpen);
     }
 }
