@@ -1,7 +1,16 @@
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.6
-version = '1.0'
+version = '1.0.0'
+archivesBaseName = project.name
+group = "com.natpryce"
+version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
 
 repositories {
     mavenCentral()
@@ -18,4 +27,73 @@ dependencies {
     testCompile 'org.hamcrest:java-hamcrest:2.0.0.0'
     testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
     testCompile 'com.natpryce:snodge:1.3.4.2'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'worktoruke',
+                   'Implementation-Vendor': 'com.natpryce',
+                   'Implementation-Version': version
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives jar, sourcesJar, javadocJar
+}
+
+
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+String publishUsername = hasProperty("ossrhUsername") ? property("ossrhUsername") : ""
+String publishPassword = hasProperty("ossrhPassword") ? property("ossrhPassword") : ""
+
+uploadArchives {
+    repositories.mavenDeployer {
+        beforeDeployment { deployment -> signing.signPom(deployment) }
+
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            authentication(userName: publishUsername, password: publishPassword)
+        }
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            authentication(userName: publishUsername, password: publishPassword)
+        }
+
+        pom.project {
+            name archivesBaseName
+            packaging 'jar'
+            description 'Manage test lifecycle by correlating failures with contents of an issue tracker.'
+            url 'https://github.com/npryce/worktorule'
+
+            scm {
+                connection 'git@github.com:npryce/worktorule.git'
+                url 'https://github.com/npryce/worktorule'
+            }
+
+            licenses {
+                license {
+                    name 'Apache License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0'                }
+            }
+
+            developers {
+                developer {
+                    id 'nat.pryce'
+                    name 'Nat Pryce'
+                }
+            }
+        }
+    }
 }
