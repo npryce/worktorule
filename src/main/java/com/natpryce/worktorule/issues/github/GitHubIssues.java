@@ -24,7 +24,7 @@ public class GitHubIssues extends JsonHttpIssueTrackerClient {
             if (issueJson.isObject()) {
                 JsonNode state = issueJson.get("state");
                 if (state != null && state.isTextual()) {
-                    return state.asText().equals("open");
+                    return state.textValue().equals("open");
                 }
             }
 

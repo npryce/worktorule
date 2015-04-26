@@ -15,10 +15,17 @@ public class BitbucketIssues extends JsonHttpIssueTrackerClient {
             "new",
             "on hold");
 
-    private static final IssueJsonPredicate issueIsOpen = new IssueJsonPredicate() {
+    static final IssueJsonPredicate issueIsOpen = new IssueJsonPredicate() {
         @Override
         public boolean isOpen(JsonNode issueJson) throws JsonMappingException {
-            return openStatuses.contains(issueJson.get("status").asText("unknown"));
+            if (issueJson.isObject()) {
+                JsonNode status = issueJson.get("status");
+                if (status != null && status.isTextual()) {
+                    return openStatuses.contains(status.textValue());
+                }
+            }
+
+            throw new JsonMappingException("JSON does not conform to Bitbucket issue structure");
         }
     };
 
