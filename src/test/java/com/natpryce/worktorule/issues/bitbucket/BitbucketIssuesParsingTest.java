@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
 import com.natpryce.snodge.JsonMutator;
 import com.natpryce.snodge.Mutator;
-import com.natpryce.worktorule.issues.github.GitHubIssues;
 import org.junit.Before;
 import org.junit.Test;
 
