@@ -1,49 +1,28 @@
 package com.natpryce.worktorule.issues.bitbucket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
-import com.natpryce.worktorule.IssueTracker;
-import com.scurrilous.uritemplate.URITemplate;
+import com.natpryce.worktorule.internal.IssueJsonPredicate;
+import com.natpryce.worktorule.internal.JsonHttpIssueTrackerClient;
+import com.natpryce.worktorule.internal.ProjectHostingServiceUrlScheme;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-public class BitbucketIssues implements IssueTracker {
-    private static final URITemplate uriTemplate =
-            new URITemplate("https://bitbucket.org/api/1.0/repositories/{owner}/{repo}/issues/{issueId}");
+public class BitbucketIssues extends JsonHttpIssueTrackerClient {
+    private static final String urlTemplate =
+            "https://bitbucket.org/api/1.0/repositories/{owner}/{repo}/issues/{issueId}";
 
     private static final ImmutableSet<String> openStatuses = ImmutableSet.of(
             "new",
-            "on hold"
-    );
+            "on hold");
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String owner;
-    private final String repo;
+    private static final IssueJsonPredicate issueIsOpen = new IssueJsonPredicate() {
+        @Override
+        public boolean isOpen(JsonNode issueJson) throws JsonMappingException {
+            return openStatuses.contains(issueJson.get("status").asText("unknown"));
+        }
+    };
 
     public BitbucketIssues(String owner, String repo) {
-        this.owner = owner;
-        this.repo = repo;
-    }
-
-    @Override
-    public boolean isOpen(String issueId) throws IOException {
-        return openStatuses.contains(objectMapper.readTree(urlFor(issueId)).get("status").asText("unknown"));
-    }
-
-    private URL urlFor(String issueId) {
-        try {
-            return uriTemplate.expand(ImmutableMap.<String,Object>of(
-                    "owner", owner,
-                    "repo", repo,
-                    "issueId", issueId)).toURL();
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("invalid URL syntax", e);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("invalid URL syntax", e);
-        }
+        super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo), issueIsOpen);
     }
 }
