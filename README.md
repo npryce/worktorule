@@ -10,4 +10,4 @@ Requires:
  - Java (1.6+)
  - JUnit
 
-Available in Maven Central as [com.natpryce:worktorule:<version>](http://search.maven.org/#browse%7C542918654)
+Available in Maven Central as [com.natpryce:worktorule:\<version\>](http://search.maven.org/#browse%7C542918654)
