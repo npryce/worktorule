@@ -20,7 +20,7 @@ public class BitbucketIssues extends JsonHttpIssueTrackerClient {
         @Override
         public boolean isOpen(JsonNode issueJson) throws JsonMappingException {
             JsonNode statusNode = issueJson.findPath("status");
-            if (statusNode.isMissingNode()) {
+            if (!statusNode.isTextual()) {
                 throw new JsonMappingException("JSON does not conform to Bitbucket issue structure");
             }
 

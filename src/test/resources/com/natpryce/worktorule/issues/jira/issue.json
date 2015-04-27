@@ -1,0 +1,22 @@
+{
+  "expand": "renderedFields,names,schema,transitions,operations,editmeta,changelog",
+  "id": "11111",
+  "self": "http://jira.example.com/rest/api/2/issue/11111",
+  "key": "EXAMPLE-999",
+  "fields": {
+    "status": {
+      "self": "http://jira.example.com/rest/api/2/status/22222",
+      "description": "This status is managed internally by JIRA Agile",
+      "iconUrl": "http://jira.nap/images/icons/subtask.gif",
+      "name": "In Test",
+      "id": "22222",
+      "statusCategory": {
+        "self": "http://jira.example.com/rest/api/2/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    }
+  }
+}

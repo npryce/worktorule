@@ -12,18 +12,6 @@ public class BasicAuthentication implements HttpConnectionSetting {
         this.headerValue = "Basic " + base64(username + ":" + password);
     }
 
-    public static BasicAuthentication fromEnvironmentVariables(String usernameVarname, String passwordVarname) {
-        return new BasicAuthentication(getenv(usernameVarname), getenv(passwordVarname));
-    }
-
-    private static String getenv(String name) {
-        final String value = System.getenv(name);
-        if (value == null) {
-            throw new IllegalArgumentException("environment variable " + name + " is not set");
-        }
-        return value;
-    }
-
     @Override
     public void applyTo(HttpURLConnection cx) {
         cx.setRequestProperty("Authorization", headerValue);
