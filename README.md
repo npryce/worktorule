@@ -1,7 +1,7 @@
 Work to Rule
 ============
 
-[![Build Status](https://travis-ci.org/npryce/worktorule.svg?branch=1.0.0-RC1)](https://travis-ci.org/npryce/worktorule)
+[![Build Status](https://travis-ci.org/npryce/worktorule.svg)](https://travis-ci.org/npryce/worktorule)
 
 Manage test lifecycle by correlating failures with contents of an issue tracker.
 
