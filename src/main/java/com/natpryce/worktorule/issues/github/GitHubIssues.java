@@ -21,14 +21,12 @@ public class GitHubIssues extends JsonHttpIssueTrackerClient {
     static final IssueJsonPredicate issueIsOpen = new IssueJsonPredicate() {
         @Override
         public boolean isOpen(JsonNode issueJson) throws JsonMappingException {
-            if (issueJson.isObject()) {
-                JsonNode state = issueJson.get("state");
-                if (state != null && state.isTextual()) {
-                    return state.textValue().equals("open");
-                }
+            JsonNode state = issueJson.findPath("state");
+            if (state.isMissingNode()) {
+                throw new JsonMappingException("JSON does not conform to GitHub issue structure");
             }
 
-            throw new JsonMappingException("JSON does not conform to GitHub issue structure");
+            return state.asText().equals("open");
         }
     };
 }
