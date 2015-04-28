@@ -7,4 +7,5 @@ script:
 - "./gradlew clean jar test"
 env:
   global:
-    secure: MSsRwjFvZ95XO9+F9CWvYEqR0Yvbs5rV2/v8l2cRNLuJZfsFZ/Q9G/uzi96jvU+/LWtQC3MqBe0YugDYfSjYInPYkOLv7qMBYzJJ5CSkvT2QGSU9bUzeW1NAaJQmbYuT/8yQ1V6RFYsn0q6fQykSDGWu+2XmpsJYTEOKT3fp7t8=
+  - secure: MSsRwjFvZ95XO9+F9CWvYEqR0Yvbs5rV2/v8l2cRNLuJZfsFZ/Q9G/uzi96jvU+/LWtQC3MqBe0YugDYfSjYInPYkOLv7qMBYzJJ5CSkvT2QGSU9bUzeW1NAaJQmbYuT/8yQ1V6RFYsn0q6fQykSDGWu+2XmpsJYTEOKT3fp7t8=
+  - secure: gixqPzJMcA8SmGVQxav98ALUXDXCguVQhdQSeXcaQUwTrODiMqO9hpOLCh6bDAZOnvXgyDRsO5gSCjvOm5SYFk6x0+MYf0mBZtWWXVakkc2jdpmnsf9dQKxBa1MZxelhibG+ljeAi/yyj8CCz5au3ETXF2gmUZtCwo7UH3TJsmI=
