@@ -10,7 +10,7 @@ import java.net.URI;
 
 public class Jira extends JsonHttpIssueTrackerClient {
     public Jira(String jiraServerUrl, HttpConnectionSetting... connectionSettings) {
-        super(new JiraIssueUrlScheme(URI.create(jiraServerUrl)), "application/json", issueIsOpen, connectionSettings);
+        super(new JiraIssueUriScheme(URI.create(jiraServerUrl)), "application/json", issueIsOpen, connectionSettings);
     }
 
     static final IssueJsonPredicate issueIsOpen = new IssueJsonPredicate() {

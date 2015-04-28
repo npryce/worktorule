@@ -25,6 +25,10 @@ public class JsonHttp {
         this.connectionSettings = connectionSettings;
     }
 
+    public JsonNode getJson(URI uri) throws IOException {
+        return getJson(uri.toURL());
+    }
+
     public JsonNode getJson(URL url) throws IOException {
         HttpURLConnection cx = (HttpURLConnection) url.openConnection();
         cx.setRequestProperty("Accept", acceptedContentType);

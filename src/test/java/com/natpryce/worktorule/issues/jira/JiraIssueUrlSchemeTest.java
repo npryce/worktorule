@@ -3,7 +3,6 @@ package com.natpryce.worktorule.issues.jira;
 import org.junit.Test;
 
 import java.net.URI;
-import java.net.URL;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -11,17 +10,17 @@ import static org.junit.Assert.assertThat;
 public class JiraIssueUrlSchemeTest {
     @Test
     public void expandsApiUrlsForGivenJiraInstance() throws Exception {
-        JiraIssueUrlScheme jira = new JiraIssueUrlScheme(URI.create("https://jira.example.com"));
+        JiraIssueUriScheme jira = new JiraIssueUriScheme(URI.create("https://jira.example.com"));
 
-        assertThat(jira.urlOfIssue("EXAMPLE-999"),
-                equalTo(new URL("https://jira.example.com/rest/api/2/issue/EXAMPLE-999?fields=status")));
+        assertThat(jira.uriForIssue("EXAMPLE-999"),
+                equalTo(URI.create("https://jira.example.com/rest/api/2/issue/EXAMPLE-999?fields=status")));
     }
 
     @Test
     public void expandsApiWithExplicitPort() throws Exception {
-        JiraIssueUrlScheme jira = new JiraIssueUrlScheme(URI.create("https://jira.example.com:8443"));
+        JiraIssueUriScheme jira = new JiraIssueUriScheme(URI.create("https://jira.example.com:8443"));
 
-        assertThat(jira.urlOfIssue("EXAMPLE-999"),
-                equalTo(new URL("https://jira.example.com:8443/rest/api/2/issue/EXAMPLE-999?fields=status")));
+        assertThat(jira.uriForIssue("EXAMPLE-999"),
+                equalTo(URI.create("https://jira.example.com:8443/rest/api/2/issue/EXAMPLE-999?fields=status")));
     }
 }

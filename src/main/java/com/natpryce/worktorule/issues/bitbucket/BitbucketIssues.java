@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.natpryce.worktorule.http.HttpConnectionSetting;
 import com.natpryce.worktorule.internal.IssueJsonPredicate;
 import com.natpryce.worktorule.internal.JsonHttpIssueTrackerClient;
-import com.natpryce.worktorule.internal.ProjectHostingServiceUrlScheme;
+import com.natpryce.worktorule.internal.ProjectHostingServiceUriScheme;
 
 public class BitbucketIssues extends JsonHttpIssueTrackerClient {
     private static final String urlTemplate =
@@ -29,7 +29,7 @@ public class BitbucketIssues extends JsonHttpIssueTrackerClient {
     };
 
     public BitbucketIssues(String owner, String repo, HttpConnectionSetting... connectionSettings) {
-        super(new ProjectHostingServiceUrlScheme(urlTemplate, owner, repo),
+        super(new ProjectHostingServiceUriScheme(urlTemplate, owner, repo),
                 "application/json",
                 issueIsOpen,
                 connectionSettings);

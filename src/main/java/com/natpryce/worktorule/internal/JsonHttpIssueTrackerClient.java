@@ -7,12 +7,12 @@ import com.natpryce.worktorule.http.HttpConnectionSetting;
 import java.io.IOException;
 
 public class JsonHttpIssueTrackerClient implements IssueTracker {
-    private final IssueTrackerUrlScheme urlScheme;
+    private final IssueTrackerUriScheme urlScheme;
     private final IssueJsonPredicate isOpenPredicate;
 
     private final JsonHttp jsonHttp;
 
-    public JsonHttpIssueTrackerClient(IssueTrackerUrlScheme urlScheme, String acceptedContentType, IssueJsonPredicate isOpenPredicate, HttpConnectionSetting ... connectionSettings) {
+    public JsonHttpIssueTrackerClient(IssueTrackerUriScheme urlScheme, String acceptedContentType, IssueJsonPredicate isOpenPredicate, HttpConnectionSetting ... connectionSettings) {
         this.urlScheme = urlScheme;
         this.isOpenPredicate = isOpenPredicate;
         jsonHttp = new JsonHttp(acceptedContentType, connectionSettings);
@@ -24,7 +24,7 @@ public class JsonHttpIssueTrackerClient implements IssueTracker {
     }
 
     private JsonNode getJsonFor(String issueId) throws IOException {
-        return jsonHttp.getJson(urlScheme.urlOfIssue(issueId));
+        return jsonHttp.getJson(urlScheme.uriForIssue(issueId));
     }
 
     /**
