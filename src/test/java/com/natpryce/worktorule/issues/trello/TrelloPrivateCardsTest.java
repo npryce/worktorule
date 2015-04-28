@@ -10,25 +10,25 @@ import java.io.IOException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TrelloPublicCardsTest {
+public class TrelloPrivateCardsTest {
     TrelloCards issues = new TrelloCards(
             BuildEnvironment.getenv("TRELLO_API_KEY"),
-            Optional.<String>absent(),
-            ImmutableSet.of("553e4062f56e8f365751330a"));
+            Optional.of(BuildEnvironment.getenv("TRELLO_USER_TOKEN")),
+            ImmutableSet.of("55400cf0e35d9d83917e5404"));
 
     @Test
     public void cardsNotInDoneListsAreOpen() throws IOException {
-        assertTrue(issues.isOpen("HKktl18U"));
-        assertTrue(issues.isOpen("Po7aGWTf"));
+        assertTrue(issues.isOpen("e5d5CKwD"));
+        assertTrue(issues.isOpen("8Hgh3CoP"));
     }
 
     @Test
     public void cardsInDoneListsAreClosed() throws IOException {
-        assertFalse(issues.isOpen("9Dluzr6q"));
+        assertFalse(issues.isOpen("Pt9Mo3xx"));
     }
 
     @Test
     public void archivedCardIsClosed() throws IOException {
-        assertFalse(issues.isOpen("gwPLbS16"));
+        assertFalse(issues.isOpen("N9jKDnDI"));
     }
 }

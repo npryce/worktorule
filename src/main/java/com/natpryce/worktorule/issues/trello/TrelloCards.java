@@ -23,20 +23,19 @@ public class TrelloCards implements IssueTracker {
     public TrelloCards(String apiKey, Optional<String> userToken, Set<String> closedIssueListIds, HttpConnectionSetting ... connectionSettings) {
         this.jsonHttp = new JsonHttp("application/json", connectionSettings);
         this.cardClosedUriScheme = new TrelloCardFieldUriScheme(apiKey, userToken,
-                "https://api.trello.com/1/card/{cardId}/closed{?key}{?token}");
+                "https://api.trello.com/1/card/{cardId}/closed{?key,token}");
         this.cardListIdUriScheme = new TrelloCardFieldUriScheme(apiKey, userToken,
-                "https://api.trello.com/1/card/{cardId}/idList?{?key}{?token}");
+                "https://api.trello.com/1/card/{cardId}/idList{?key,token}");
         this.doneListIds = closedIssueListIds;
     }
 
     @Override
     public boolean isOpen(String cardId) throws IOException {
-        return !cardIsClosed(cardId) && !cardIsInDoneList(cardId);
+        return !cardIsClosed(cardId) && !doneListIds.contains(cardListId(cardId));
     }
 
-    private boolean cardIsInDoneList(String cardId) throws IOException {
-        String listId = getCardField(cardId, cardListIdUriScheme, STRING).textValue();
-        return doneListIds.contains(listId);
+    private String cardListId(String cardId) throws IOException {
+        return getCardField(cardId, cardListIdUriScheme, STRING).textValue();
     }
 
     private JsonNode getCardField(String cardId, TrelloCardFieldUriScheme uriScheme, JsonNodeType nodeType) throws IOException {
