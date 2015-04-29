@@ -9,8 +9,10 @@ Work to Rule lets you mark tests as in progress and associate them with issues i
 will report failing, in progress tests as skipped while the issue is open, and report failures as normal if they
 reoccur after the issue is closed.
 
-This lets you follow an acceptance-test driven development process (aka ATDD), in which you start by writing
-acceptance tests that fail, and then implement the code to make the tests pass.
+This lets you follow an acceptance-test driven development process 
+(as described in [Growing Object Oriented Software, Developed by Tests](http://www.growing-object-oriented.software.com) 
+and other books) in which you start by writing acceptance tests that fail, and then implement the code to make the 
+tests pass.
 
 It is also useful for associating contract tests that detect failures in third-party libraries or services with
 issues in the vendor's issue tracker.
@@ -58,7 +60,7 @@ public class ExampleAcceptanceTest {
 Then, annotate the failing test as InProgress and associate it with one or more issues in your issue tracker by passing
 the ids of the issues as parameters to the InProgress annotation. 
 
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~java
 public class ExampleAcceptanceTest {
     @Rule public TestRule ignoreInProgressTests = new IgnoreInProgress(
         new GitHubIssues("example-organisation", "example-project"));
@@ -79,7 +81,7 @@ What next?
 You'll probably want to define a constant or factory method for the IssueTracker so you don't have to duplicate 
 connection parameters across your test code. 
 
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~java
 public class DevelopmentEnvironment {
     public static IssueTracker issueTracker = new GitHubIssues("example-organisation", "example-project");
     
