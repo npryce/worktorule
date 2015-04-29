@@ -46,6 +46,9 @@ First, add the IgnoreInProgress rule to your test.  The rule's constructore take
 can query the state of issues for your project.  In this example, our project uses a public GitHub repository.
 
 ~~~~~~~~~~~~~~~~~~~~~java
+import com.natpryce.worktorule.IgnoreInProgress;
+import com.natpryce.worktorule.issues.github.GitHubIssues;
+
 public class ExampleAcceptanceTest {
     @Rule public TestRule ignoreInProgressTests = new IgnoreInProgress(
         new GitHubIssues("example-organisation", "example-project"));
@@ -57,10 +60,13 @@ public class ExampleAcceptanceTest {
 }
 ~~~~~~~~~~~~~~~~~~~~~
 
-Then, annotate the failing test as InProgress and associate it with one or more issues in your issue tracker by passing
-the ids of the issues as parameters to the InProgress annotation. 
+Then, annotate the failing test as InProgress and associate it with one or more issues in your issue tracker by passing the issue IDs  as parameters to the InProgress annotation. 
 
 ~~~~~~~~~~~~~~~~~~~~~java
+import com.natpryce.worktorule.IgnoreInProgress;
+import com.natpryce.worktorule.InProgress;
+import com.natpryce.worktorule.issues.github.GitHubIssues;
+
 public class ExampleAcceptanceTest {
     @Rule public TestRule ignoreInProgressTests = new IgnoreInProgress(
         new GitHubIssues("example-organisation", "example-project"));
