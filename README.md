@@ -10,7 +10,7 @@ will report failing, in progress tests as skipped while the issue is open, and r
 reoccur after the issue is closed.
 
 This lets you follow an acceptance-test driven development process 
-(as described in [Growing Object Oriented Software, Developed by Tests](http://www.growing-object-oriented.software.com) 
+(as described in [Growing Object Oriented Software, Developed by Tests](http://www.growing-object-oriented-software.com) 
 and other books) in which you start by writing acceptance tests that fail, and then implement the code to make the 
 tests pass.
 
