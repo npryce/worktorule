@@ -11,8 +11,8 @@ reoccur after the issue is closed.
 
 This lets you follow an acceptance-test driven development process 
 (as described in [Growing Object Oriented Software, Developed by Tests](http://www.growing-object-oriented-software.com) 
-and other books) in which you start by writing acceptance tests that fail, and then implement the code to make the 
-tests pass.
+and other books) in which you start by writing acceptance tests that fail, and then implement the functionality with 
+(Unit) TDD until the acceptance tests pass.
 
 It is also useful for associating contract tests that detect failures in third-party libraries or services with
 issues in the vendor's issue tracker.
