@@ -39,11 +39,9 @@ public class ExampleAcceptanceTest {
 }
 ~~~~~~~~~~~~~~~~~~~~~
 
-You want to check that in to your project, but you don't want it to break the build while you're working on the feature.
-At this stage, the test is used for tracking development, not detecting regressions.
+You want to check that in to your project, but you don't want it to break the build while you're working on the feature. At this stage, the test is used for tracking development, not detecting regressions.
 
-First, add the IgnoreInProgress rule to your test.  The rule's constructore takes an instance of an IssueTracker that
-can query the state of issues for your project.  In this example, our project uses a public GitHub repository.
+First, add the IgnoreInProgress rule to your test.  The rule's constructor takes an instance of an IssueTracker that can query the state of issues for your project.  In this example, our project uses a public GitHub repository.
 
 ~~~~~~~~~~~~~~~~~~~~~java
 import com.natpryce.worktorule.IgnoreInProgress;
