@@ -28,7 +28,7 @@ Available in Maven Central as [com.natpryce:worktorule:\<version\>](http://searc
 Quick Start
 -----------
 
-Let's say you have a failing acceptance test.
+Let's say you have written a failing acceptance test for a new feature:
 
 ~~~~~~~~~~~~~~~~~~~~~java
 public class ExampleAcceptanceTest {
@@ -39,7 +39,7 @@ public class ExampleAcceptanceTest {
 }
 ~~~~~~~~~~~~~~~~~~~~~
 
-You want to check that in to your project, but you don't want it to break the build while you're working on the feature. At this stage, the test is used for tracking development, not detecting regressions.
+At this stage, the test is used for tracking development, not detecting regressions. You want to check the test in to your project, but you don't want it to break the build while you're working on the feature. 
 
 First, add the [IgnoreInProgress](src/main/java/com/natpryce/worktorule/IgnoreInProgress.java) rule to your test.  The rule's constructor takes an instance of an [IssueTracker](src/main/java/com/natpryce/worktorule/IssueTracker.java) that can query the state of issues for your project.  In this example, our project uses a public GitHub repository.
 
