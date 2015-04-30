@@ -41,7 +41,7 @@ public class ExampleAcceptanceTest {
 
 You want to check that in to your project, but you don't want it to break the build while you're working on the feature. At this stage, the test is used for tracking development, not detecting regressions.
 
-First, add the IgnoreInProgress rule to your test.  The rule's constructor takes an instance of an IssueTracker that can query the state of issues for your project.  In this example, our project uses a public GitHub repository.
+First, add the [IgnoreInProgress](src/main/java/com/natpryce/worktorule/IgnoreInProgress.java) rule to your test.  The rule's constructor takes an instance of an [IssueTracker](src/main/java/com/natpryce/worktorule/IssueTracker.java) that can query the state of issues for your project.  In this example, our project uses a public GitHub repository.
 
 ~~~~~~~~~~~~~~~~~~~~~java
 import com.natpryce.worktorule.IgnoreInProgress;
@@ -58,7 +58,7 @@ public class ExampleAcceptanceTest {
 }
 ~~~~~~~~~~~~~~~~~~~~~
 
-Then, annotate the failing test as InProgress and associate it with one or more issues in your issue tracker by passing the issue IDs  as parameters to the InProgress annotation. 
+Then, annotate the failing test as [InProgress](src/main/java/com/natpryce/worktorule/InProgress.java) and associate it with one or more issues in your issue tracker by passing the issue IDs  as parameters to the InProgress annotation. 
 
 ~~~~~~~~~~~~~~~~~~~~~java
 import com.natpryce.worktorule.IgnoreInProgress;
