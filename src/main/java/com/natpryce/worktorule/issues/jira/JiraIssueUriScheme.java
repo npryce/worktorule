@@ -7,7 +7,7 @@ import com.scurrilous.uritemplate.URITemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class JiraIssueUriScheme implements IssueTrackerUriScheme {
+class JiraIssueUriScheme implements IssueTrackerUriScheme {
     private static final URITemplate uriTemplate = new URITemplate("/rest/api/2/issue/{issueId}?fields=status");
     private final URI rootUri;
 

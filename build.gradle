@@ -37,6 +37,10 @@ jar {
     }
 }
 
+javadoc {
+    exclude "**/internal/**"
+}
+
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
