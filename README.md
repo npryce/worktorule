@@ -82,18 +82,18 @@ That's it.
 What next?
 ----------
 
-You'll probably want to define a constant or factory method for the IssueTracker so you don't have to duplicate 
+You'll probably want to define a constant or factory method for the rule so you don't have to duplicate 
 connection parameters across your test code. 
 
 ~~~~~~~~~~~~~~~~~~~~~java
-public class DevelopmentEnvironment {
-    public static IssueTracker issueTracker = new GitHubIssues("example-organisation", "example-project");
-    
-    ....
+public class TestRules {
+    public static TestRule ignoreInProgressTests = new IgnoreInProgress(
+        new GitHubIssues("example-organisation", "example-project"));
+    ...
 }
 
 public class ExampleAcceptanceTest {
-    @Rule public TestRule ignoreInProgressTests = new IgnoreInProgress(DevelopmentEnvironment.issueTracker);
+    @Rule public TestRule ignoreInProgress = TestRules.ignoreInProgressTests;
     
     ...
 }
