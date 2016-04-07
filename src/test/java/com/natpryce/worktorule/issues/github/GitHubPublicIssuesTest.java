@@ -2,9 +2,12 @@ package com.natpryce.worktorule.issues.github;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.natpryce.worktorule.SkipWhenOffline;
 import org.junit.AssumptionViolatedException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +16,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class GitHubPublicIssuesTest {
+    @Rule
+    public TestRule skipOffline = new SkipWhenOffline();
+
     GitHubIssues issues = new GitHubIssues("npryce", "worktorule-testing");
 
     @Before
