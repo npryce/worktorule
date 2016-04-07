@@ -14,6 +14,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
 
 public class IgnoreInProgressTest {
     FakeIssueTracker issueTracker = new FakeIssueTracker();
@@ -42,32 +43,18 @@ public class IgnoreInProgressTest {
     public void skipsFailingTestIfAnnotatedWithOpenIssue() throws Throwable {
         issueTracker.open("issue-id");
 
-        Statement testWithRuleApplied = rule.apply(
+        assertTestIsSkipped(rule.apply(
                 new FailingTest(new ExampleFailure()),
-                descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("issue-id")));
+                descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("issue-id"))));
 
-        try {
-            testWithRuleApplied.evaluate();
-        }
-        catch (AssumptionViolatedException e) {
-            // expected
-        }
     }
 
     @Test
     public void failsTestIfAnnotatedAsInProgressButIssuesNotOpen() throws Throwable {
-        Statement testWithRuleApplied = rule.apply(
+
+        assertTestFails(rule.apply(
                 new PassingTest(),
-                descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("closed-issue")));
-
-        try {
-            testWithRuleApplied.evaluate();
-        }
-        catch (AssertionError expected) {
-            return;
-        }
-
-        Assert.fail("test should have failed");
+                descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("closed-issue"))));
     }
 
     @Test
@@ -78,14 +65,7 @@ public class IgnoreInProgressTest {
                 new PassingTest(),
                 descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("issue-id")));
 
-        try {
-            testWithRuleApplied.evaluate();
-        }
-        catch (AssertionError expected) {
-            return;
-        }
-
-        Assert.fail("should have failed the test");
+        assertTestFails(testWithRuleApplied);
     }
 
     @Test(expected = IOException.class)
@@ -97,6 +77,39 @@ public class IgnoreInProgressTest {
                 descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("issue-id")));
 
         testWithRuleApplied.evaluate();
+    }
+
+    @Test
+    public void canBeConfiguredToFindRelatedIssuesElsewhere() throws Throwable {
+        IgnoreInProgress rule = new IgnoreInProgress(issueTracker, description -> newHashSet("issue-x", "issue-y"));
+
+        issueTracker.open("issue-a");
+        issueTracker.open("issue-x");
+        issueTracker.open("issue-y");
+
+        assertTestIsSkipped(rule.apply(
+                new FailingTest(new ExampleFailure()),
+                descriptionOfTest(ClassWithNoAnnotations.class, new InProgressAnnotation("issue-a"))));
+    }
+
+    private void assertTestIsSkipped(Statement testWithRuleApplied) throws Throwable {
+        try {
+            testWithRuleApplied.evaluate();
+        }
+        catch (AssumptionViolatedException e) {
+            // expected
+        }
+    }
+
+    private void assertTestFails(Statement testWithRuleApplied) throws Throwable {
+        try {
+            testWithRuleApplied.evaluate();
+        }
+        catch (AssertionError expected) {
+            return;
+        }
+
+        fail("test should have failed");
     }
 
 

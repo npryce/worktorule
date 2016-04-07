@@ -1,8 +1,8 @@
 package com.natpryce.worktorule;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -10,9 +10,11 @@ import org.junit.runners.model.Statement;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Set;
+import java.util.function.Function;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.union;
+import static java.util.Collections.emptySet;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -25,9 +27,15 @@ import static org.junit.Assert.fail;
 @SuppressWarnings("UnusedDeclaration")
 public class IgnoreInProgress implements TestRule {
     private final IssueTracker issueTracker;
+    private final Function<Description, Set<String>> associatedIssues;
 
     public IgnoreInProgress(IssueTracker issueTracker) {
+        this(issueTracker, (description)-> emptySet());
+    }
+
+    public IgnoreInProgress(IssueTracker issueTracker, Function<Description,Set<String>> associatedIssues) {
         this.issueTracker = issueTracker;
+        this.associatedIssues = associatedIssues;
     }
 
     @Override
@@ -40,7 +48,7 @@ public class IgnoreInProgress implements TestRule {
             return new Statement() {
                 @Override
                 public void evaluate() throws Throwable {
-                    Set<String> openIssueIds = filterOpen(issueIds);
+                    Set<String> openIssueIds = Sets.union(filterOpen(issueIds), associatedIssues.apply(description));
                     assertTrue("test annotated as InProgress, but no open issues found", !openIssueIds.isEmpty());
 
                     try {
@@ -81,14 +89,7 @@ public class IgnoreInProgress implements TestRule {
 
     private Set<String> ids(@Nullable InProgress annotation) {
         return ImmutableSet.copyOf(Optional.fromNullable(annotation)
-                .transform(toIds)
+                .transform(InProgress::value)
                 .or(new String[0]));
     }
-
-    private static final Function<InProgress, String[]> toIds = new Function<InProgress, String[]>() {
-        @Override
-        public String[] apply(InProgress input) {
-            return input.value();
-        }
-    };
 }

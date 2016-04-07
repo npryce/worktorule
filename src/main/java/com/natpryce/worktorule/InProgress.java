@@ -18,6 +18,6 @@ public @interface InProgress {
     /**
      * @return The ID (or IDs) of the issue(s) under which the work is being tracked.
      */
-    String[] value();
+    String[] value() default {};
 
 }
