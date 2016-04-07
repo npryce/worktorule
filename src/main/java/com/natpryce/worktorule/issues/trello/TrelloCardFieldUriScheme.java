@@ -1,6 +1,6 @@
 package com.natpryce.worktorule.issues.trello;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.natpryce.worktorule.internal.IssueTrackerUriScheme;
 import com.scurrilous.uritemplate.URITemplate;
 
@@ -24,9 +24,7 @@ class TrelloCardFieldUriScheme implements IssueTrackerUriScheme {
     public URI uriForIssue(String cardId) {
         Map<String,Object> args = new HashMap<String, Object>();
         args.put("key", apiKey);
-        for (String userToken : this.userToken.asSet()) {
-            args.put("token", userToken);
-        }
+        userToken.ifPresent(userToken -> args.put("token", userToken));
         args.put("cardId", cardId);
 
         try {

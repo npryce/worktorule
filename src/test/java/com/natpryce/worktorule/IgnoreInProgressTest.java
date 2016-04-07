@@ -8,9 +8,9 @@ import org.junit.runners.model.Statement;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.HashSet;
 import java.util.Set;
 
-import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
@@ -81,11 +81,9 @@ public class IgnoreInProgressTest {
 
     @Test
     public void canBeConfiguredToFindRelatedIssuesElsewhere() throws Throwable {
-        IgnoreInProgress rule = new IgnoreInProgress(issueTracker, description -> newHashSet("issue-x", "issue-y"));
+        IgnoreInProgress rule = new IgnoreInProgress(issueTracker, description -> new HashSet<>(asList("issue-x", "issue-y")));
 
-        issueTracker.open("issue-a");
         issueTracker.open("issue-x");
-        issueTracker.open("issue-y");
 
         assertTestIsSkipped(rule.apply(
                 new FailingTest(new ExampleFailure()),
@@ -145,7 +143,7 @@ public class IgnoreInProgressTest {
 
     private static class FakeIssueTracker implements IssueTracker {
         public IOException failure = null;
-        private final Set<String> openIssues = newHashSet();
+        private final Set<String> openIssues = new HashSet<>();
 
         public void open(String ... issues) {
             openIssues.addAll(asList(issues));

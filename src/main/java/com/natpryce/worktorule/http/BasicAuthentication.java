@@ -1,9 +1,8 @@
 package com.natpryce.worktorule.http;
 
-import com.google.common.base.Charsets;
-
 import javax.xml.bind.DatatypeConverter;
 import java.net.HttpURLConnection;
+import java.nio.charset.Charset;
 
 public class BasicAuthentication implements HttpConnectionSetting {
     public final String headerValue;
@@ -18,6 +17,6 @@ public class BasicAuthentication implements HttpConnectionSetting {
     }
 
     private static String base64(String s) {
-        return DatatypeConverter.printBase64Binary(s.getBytes(Charsets.UTF_8));
+        return DatatypeConverter.printBase64Binary(s.getBytes(Charset.forName("UTF-8")));
     }
 }

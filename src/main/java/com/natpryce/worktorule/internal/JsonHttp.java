@@ -2,7 +2,7 @@ package com.natpryce.worktorule.internal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.natpryce.worktorule.http.HttpConnectionSetting;
 
 import javax.activation.MimeType;
@@ -55,7 +55,7 @@ public class JsonHttp {
     }
 
     private String parseCharset(MimeType contentType) {
-        return Optional.fromNullable(contentType.getParameter("charset")).or("utf-8");
+        return Optional.ofNullable(contentType.getParameter("charset")).orElse("utf-8");
     }
 
     private String parseCharset(HttpURLConnection cx) throws IOException {

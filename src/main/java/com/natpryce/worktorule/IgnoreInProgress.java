@@ -1,19 +1,15 @@
 package com.natpryce.worktorule;
 
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
-import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.union;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -48,7 +44,7 @@ public class IgnoreInProgress implements TestRule {
             return new Statement() {
                 @Override
                 public void evaluate() throws Throwable {
-                    Set<String> openIssueIds = Sets.union(filterOpen(issueIds), associatedIssues.apply(description));
+                    Set<String> openIssueIds = filterOpen(issueIds);
                     assertTrue("test annotated as InProgress, but no open issues found", !openIssueIds.isEmpty());
 
                     try {
@@ -66,7 +62,7 @@ public class IgnoreInProgress implements TestRule {
     }
 
     private Set<String> filterOpen(Set<String> issueIds) throws IOException {
-        Set<String> open = newHashSet();
+        Set<String> open = new TreeSet<>();
         for (String issueId : issueIds) {
             if (issueTracker.isOpen(issueId)) {
                 open.add(issueId);
@@ -76,20 +72,27 @@ public class IgnoreInProgress implements TestRule {
     }
 
     private Set<String> issueIdsForTest(Description description) {
-        Set<String> issueIds = ids(description.getAnnotation(InProgress.class));
+        Set<String> issueIds = issueIdsFrom(description.getAnnotation(InProgress.class));
 
         Class<?> c = description.getTestClass();
         while (c != null) {
-            issueIds = union(issueIds, ids(c.getAnnotation(InProgress.class)));
+            issueIds.addAll(issueIdsFrom(c.getAnnotation(InProgress.class)));
             c = c.getSuperclass();
         }
+
+        issueIds.addAll(associatedIssues.apply(description));
 
         return issueIds;
     }
 
-    private Set<String> ids(@Nullable InProgress annotation) {
-        return ImmutableSet.copyOf(Optional.fromNullable(annotation)
-                .transform(InProgress::value)
-                .or(new String[0]));
+    private Set<String> issueIdsFrom(@Nullable InProgress annotation) {
+        return Optional.ofNullable(annotation)
+                .map(InProgress::value)
+                .map(ids -> setOf(ids))
+                .orElse(emptySet());
+    }
+
+    private static Set<String> setOf(String[] elements) {
+        return new TreeSet<>(asList(elements));
     }
 }

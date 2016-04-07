@@ -1,12 +1,12 @@
 package com.natpryce.worktorule.issues.trello;
 
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
 import com.natpryce.worktorule.BuildEnvironment;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Optional;
 
+import static java.util.Collections.singleton;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -14,7 +14,7 @@ public class TrelloPrivateCardsTest {
     TrelloCards issues = new TrelloCards(
             BuildEnvironment.getenv("TRELLO_API_KEY"),
             Optional.of(BuildEnvironment.getenv("TRELLO_USER_TOKEN")),
-            ImmutableSet.of("55400cf0e35d9d83917e5404"));
+            singleton("55400cf0e35d9d83917e5404"));
 
     @Test
     public void cardsNotInDoneListsAreOpen() throws IOException {

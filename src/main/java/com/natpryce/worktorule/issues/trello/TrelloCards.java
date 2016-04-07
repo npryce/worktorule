@@ -3,7 +3,7 @@ package com.natpryce.worktorule.issues.trello;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.natpryce.worktorule.IssueTracker;
 import com.natpryce.worktorule.http.HttpConnectionSetting;
 import com.natpryce.worktorule.internal.JsonHttp;

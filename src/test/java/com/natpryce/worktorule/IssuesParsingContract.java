@@ -24,7 +24,7 @@ public abstract class IssuesParsingContract {
 
     @Test
     public void shouldFailGracefully() throws IOException {
-        String issueJson = Resources.toString(Resources.getResource(getClass(), "issue.json"), Charset.defaultCharset());
+        String issueJson = Resources.toString(getClass().getResource("issue.json"), Charset.defaultCharset());
 
         for (String mutatedJson : mutator.mutate(issueJson, 250)) {
             assertFailsGracefullyWhenBadJson(issueIsOpen, mutatedJson);

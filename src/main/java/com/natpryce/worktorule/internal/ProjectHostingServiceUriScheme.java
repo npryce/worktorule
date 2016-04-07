@@ -1,10 +1,11 @@
 package com.natpryce.worktorule.internal;
 
-import com.google.common.collect.ImmutableMap;
 import com.scurrilous.uritemplate.URITemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProjectHostingServiceUriScheme implements IssueTrackerUriScheme {
     private final URITemplate uriTemplate;
@@ -20,10 +21,13 @@ public class ProjectHostingServiceUriScheme implements IssueTrackerUriScheme {
     @Override
     public URI uriForIssue(String issueId) {
         try {
-            return uriTemplate.expand(ImmutableMap.<String, Object>of(
-                    "owner", owner,
-                    "repo", repo,
-                    "issueId", issueId));
+            Map<String, Object> bindings = new HashMap<>();
+            bindings.put("owner", owner);
+            bindings.put("repo", repo);
+            bindings.put("issueId", issueId);
+
+            return uriTemplate.expand(bindings);
+
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("invalid URL syntax", e);
         }
