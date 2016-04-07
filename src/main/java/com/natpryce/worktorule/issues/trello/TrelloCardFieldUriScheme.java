@@ -1,6 +1,5 @@
 package com.natpryce.worktorule.issues.trello;
 
-import java.util.Optional;
 import com.natpryce.worktorule.internal.IssueTrackerUriScheme;
 import com.scurrilous.uritemplate.URITemplate;
 
@@ -8,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 class TrelloCardFieldUriScheme implements IssueTrackerUriScheme {
     private final URITemplate template;

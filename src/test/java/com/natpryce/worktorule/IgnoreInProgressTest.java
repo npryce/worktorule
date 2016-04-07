@@ -1,6 +1,5 @@
 package com.natpryce.worktorule;
 
-import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 import org.junit.runner.Description;

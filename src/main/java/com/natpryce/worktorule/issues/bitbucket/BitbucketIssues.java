@@ -8,9 +8,7 @@ import com.natpryce.worktorule.internal.JsonHttpIssueTrackerClient;
 import com.natpryce.worktorule.internal.ProjectHostingServiceUriScheme;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class BitbucketIssues extends JsonHttpIssueTrackerClient {
     private static final String urlTemplate =

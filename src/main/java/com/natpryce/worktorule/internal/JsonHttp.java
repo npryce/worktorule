@@ -2,7 +2,6 @@ package com.natpryce.worktorule.internal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Optional;
 import com.natpryce.worktorule.http.HttpConnectionSetting;
 
 import javax.activation.MimeType;
@@ -14,6 +13,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.Optional;
 
 public class JsonHttp {
     private final ObjectMapper objectMapper = new ObjectMapper();
