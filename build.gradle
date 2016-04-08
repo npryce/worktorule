@@ -20,8 +20,8 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'com.google.code.findbugs:jsr305:3.0.0'
     compile 'com.scurrilous:uritemplate:1.0'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.5.2'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
 
     testCompile 'org.hamcrest:java-hamcrest:2.0.0.0'
     testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
