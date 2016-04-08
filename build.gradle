@@ -9,7 +9,7 @@ group = "com.natpryce"
 version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '2.10'
 }
 
 repositories {
@@ -31,7 +31,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'worktoruke',
+        attributes 'Implementation-Title': 'worktorule',
                    'Implementation-Vendor': 'com.natpryce',
                    'Implementation-Version': version
     }
@@ -61,18 +61,27 @@ signing {
     sign configurations.archives
 }
 
-String publishUsername = hasProperty("ossrhUsername") ? property("ossrhUsername") : ""
-String publishPassword = hasProperty("ossrhPassword") ? property("ossrhPassword") : ""
+task ossrhAuthentication << {
+    if (!(project.hasProperty('ossrh.username') && project.hasProperty('ossrh.password'))) {
+        throw new InvalidUserDataException("no OSSRH username and/or password!")
+    }
+}
 
 uploadArchives {
+    dependsOn ossrhAuthentication
+
+
     repositories.mavenDeployer {
         beforeDeployment { deployment -> signing.signPom(deployment) }
 
         repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: publishUsername, password: publishPassword)
+            authentication(userName: project.properties["ossrh.username"],
+                    password: project.properties["ossrh.password"])
         }
+
         snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-            authentication(userName: publishUsername, password: publishPassword)
+            authentication(userName: project.properties["ossrh.username"],
+                    password: project.properties["ossrh.password"])
         }
 
         pom.project {
