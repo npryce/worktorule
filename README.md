@@ -20,7 +20,7 @@ issues in the vendor's issue tracker.
 
 Requires:
 
- - Java (1.6+)
+ - Java (8+)
  - JUnit
 
 Available in Maven Central as [com.natpryce:worktorule:\<version\>](http://search.maven.org/#browse%7C542918654)
