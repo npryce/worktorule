@@ -2,6 +2,7 @@ Work to Rule
 ============
 
 [![Build Status](https://travis-ci.org/npryce/worktorule.svg)](https://travis-ci.org/npryce/worktorule)
+[![Maven Central](https://img.shields.io/maven-central/v/com.natpryyce/worktorule.svg?maxAge=2592000)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.natpryce%22%20AND%20a%3A%22worktorule%22)
 
 Manage test lifecycle by correlating failures with contents of an issue tracker.
 
